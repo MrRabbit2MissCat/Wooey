@@ -97,9 +97,14 @@ h5 {
 }
 
 .jumbotron.frontpage {
-  background-color: #004d66;
+  /* background-color: #63dcdc; */
   text-align: center;
   margin-bottom: 0px;
+  
+  background-size: cover;
+  background-position: center;
+  background-image: url('https://api.likepoems.com/img/pc/');
+
 }
 
 .jumbotron.frontpage h1 {

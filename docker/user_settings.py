@@ -46,6 +46,7 @@ DATABASES = {
 ALLOWED_HOSTS = (
     "localhost",
     "127.0.0.1",
+    "*"
 )
 
 AUTHENTICATION_BACKEND = "django.contrib.auth.backends.ModelBackend"

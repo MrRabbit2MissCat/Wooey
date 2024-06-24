@@ -13,8 +13,8 @@ ENV BUILD_DIR=${BUILD_DIR}
 
 WORKDIR ${BUILD_DIR}
 RUN chown wooey:wooey ${BUILD_DIR}
-
-RUN pip install docker psycopg2 redis
+RUN pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+RUN pip install docker psycopg2 redis pynvml
 
 COPY --chown=wooey:wooey setup.py MANIFEST.in Makefile README.md ${BUILD_DIR}/
 COPY --chown=wooey:wooey scripts ${BUILD_DIR}/scripts
