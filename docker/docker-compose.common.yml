@@ -1,0 +1,41 @@
+version: "2.1"
+volumes:
+  user_uploads:
+  wooey_db:
+
+
+services:
+  common:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      args:
+        BUILD_DIR:
+        WOOEY_PROJECT:
+    image: wooey:dev
+    volumes:
+      - ./user_settings.py:$BUILD_DIR/$WOOEY_PROJECT/$WOOEY_PROJECT/settings/user_settings.py
+      - ./celeryconfig.py:$BUILD_DIR/$WOOEY_PROJECT/$WOOEY_PROJECT/settings/celeryconfig.py
+      - user_uploads:$BUILD_DIR/$WOOEY_PROJECT/$WOOEY_PROJECT/user_uploads
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/bin/docker:/usr/bin/docker
+      - /usr/bin/nvidia-smi:/usr/bin/nvidia-smi
+    environment:
+      AMQP_URL: amqp://rabbit:5672
+      BUILD_DIR:
+      DATABASE_NAME: wooey
+      DATABASE_USER: wooey
+      DATABASE_URL: db
+      DATABASE_PASSWORD: wooey
+      DJANGO_SETTINGS_MODULE: $WOOEY_PROJECT.settings
+      CELERY_CONFIG_MODULE: $WOOEY_PROJECT.settings.celeryconfig
+      NVIDIA_VISIBLE_DEVICES: all
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: "nvidia"
+              count: "all"
+              capabilities: [ "gpu" ]
+
+    user: 0:0
